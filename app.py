@@ -5,7 +5,7 @@ from flask_marshmallow import Marshmallow
 
 # logger = logging.getLogger(__name__)
 
-app = create_app('default')
+app = create_app()
 migrate = Migrate(app, db)
 ma = Marshmallow(app)
 

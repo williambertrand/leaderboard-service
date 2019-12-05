@@ -29,9 +29,9 @@ class DeploymentConfig(Config):
 
 
 config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig,
-    'default': DevelopmentConfig,
-    'deploy': DeploymentConfig
+    'Development': DevelopmentConfig,
+    'Testing': TestingConfig,
+    'Production': ProductionConfig,
+    'Default': DevelopmentConfig,
+    'Deploy': DeploymentConfig
 }
