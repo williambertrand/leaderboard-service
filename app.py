@@ -1,21 +1,20 @@
 import os
-from app import create_app, db
+from app import app
 from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 
+from app.main.models.BaseModel import db
+
 # logger = logging.getLogger(__name__)
-
-app = create_app()
-migrate = Migrate(app, db)
 ma = Marshmallow(app)
-
+migrate = Migrate(app, db)
 """ !*****************************************************************
-    
+
     Database Models Must be imported here to reflect changes in the DB 
-    
+
     !*****************************************************************
 """
-from app.main.models import user
+from app.main.models import user, game, score
 
 
 @app.shell_context_processor
