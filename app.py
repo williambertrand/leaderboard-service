@@ -14,7 +14,7 @@ migrate = Migrate(app, db)
 
     !*****************************************************************
 """
-from app.main.models import user, game, score
+from app.main.models import User, Game, Score
 
 
 @app.shell_context_processor
