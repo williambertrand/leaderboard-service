@@ -2,6 +2,7 @@ from app.main.models.BaseModel import db
 import sqlalchemy
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import ForeignKey
+from sqlalchemy import func
 
 
 class Score(db.Model):
@@ -10,6 +11,8 @@ class Score(db.Model):
 
     display_name = db.Column(db.String(120))
     value = db.Column(db.Numeric())
+
+    created_at = db.Column(db.DateTime, nullable=False, default=func.now())
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

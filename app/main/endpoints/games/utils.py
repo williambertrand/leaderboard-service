@@ -20,7 +20,7 @@ def get_game_id():
 def create_new_game(game_data):
     game_id = get_game_id()
     game = Game(
-        owner=game_data['owner'],
+        owner=game_data['owner_id'],
         game_id=game_id,
         display_name=game_data['display_name']
     )
@@ -30,7 +30,7 @@ def create_new_game(game_data):
 
 # TODO: Non-desc order may be needed
 def get_scores_for_game(game_id):
-    scores = Score.query.filter(Score.game_id == game_id).order_by(Score.value.desc()).all()
+    scores = Score.query.filter(Score.game == game_id).order_by(Score.value.desc()).all()
     return scores
 
 

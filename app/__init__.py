@@ -14,7 +14,7 @@ moment = Moment()
 env = Env()
 env.read_env()
 
-version_prefix = 'v0.1'
+version_prefix = '/api/v1'
 
 
 def create_app(env_name=None):
@@ -35,10 +35,11 @@ def create_app(env_name=None):
 
     from .main import main_bp as main_blueprint
     from .main.endpoints.users import users
-    #TODO: Import Game BP
+    from .main.endpoints.games.games import games_bp
 
     app.register_blueprint(main_blueprint)
-    app.register_blueprint(users.users_bp)
+    app.register_blueprint(users.users_bp, url_prefix=version_prefix)
+    app.register_blueprint(games_bp, url_prefix=version_prefix)
 
     return app
 
