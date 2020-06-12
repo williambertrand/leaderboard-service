@@ -22,6 +22,9 @@ def create_app(env_name=None):
     CORS(app)
     if not env_name:
         env_name = env('FLASK_ENV', 'Development')
+
+    print(f'Starting Application in env: {env_name}')
+
     app.config.from_object(config[env_name])
     config[env_name].init_app(app)
 
