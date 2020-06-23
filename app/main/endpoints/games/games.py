@@ -35,6 +35,7 @@ class ScoreSchema(Schema):
 
 
 class LeaderBoardSchema(Schema):
+    position = fields.Number()
     scores = fields.Nested(ScoreSchema, many=True)
     count = fields.Number()
 
@@ -53,10 +54,19 @@ class Games(Resource):
 
 class GameScores(Resource):
     def get(self, game_id):
+        player_score = request.args.get('score')
         scores = get_scores_for_game(game_id)
+
+        player_pos = 0
+        if player_score:
+            for i in range(0, len(scores)):
+                player_pos = i
+                if player_score > scores[i]:
+                    break
 
         return LeaderBoardSchema().dump({
             'scores': scores,
+            'position': (player_pos + 1),
             'count': len(scores)
         })
 
