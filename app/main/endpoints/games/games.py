@@ -75,8 +75,10 @@ class GameScores(Resource):
 
     def post(self, game_id):
         payload = request.json
-        validated_input = AddScoreSchema().load(payload)
-        score, err = create_score(game_id, validated_input)
+        print('GOT JSON PAYLOAD:')
+        print(payload)
+        #validated_input = AddScoreSchema().load(payload)
+        score, err = create_score(game_id, payload)
         if err is not None:
             return {'error': f'Could not find game with game_id {game_id}'}, 400
         return {'message': 'score saved'}, 200
