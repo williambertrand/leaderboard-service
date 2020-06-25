@@ -55,7 +55,10 @@ class Games(Resource):
 class GameScores(Resource):
     def get(self, game_id):
         player_score = request.args.get('score')
-        scores = get_scores_for_game(game_id)
+        scores, err = get_scores_for_game(game_id)
+
+        if err:
+            return {'error': f'Could not find game with game_id {game_id}'}, 400
 
         player_pos = 0
         if player_score:

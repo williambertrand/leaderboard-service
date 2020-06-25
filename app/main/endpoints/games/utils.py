@@ -30,8 +30,11 @@ def create_new_game(game_data):
 
 # TODO: Non-desc order may be needed
 def get_scores_for_game(game_id):
-    scores = Score.query.filter(Score.game == game_id).order_by(Score.value.desc()).all()
-    return scores
+    game = Game.query.filter(Game.game_id == game_id).one_or_none()
+    if game is None:
+        return None, 'Could not find game!'
+    scores = Score.query.filter(Score.game == game.id).order_by(Score.value.desc()).all() #oof the game field name needs to be changed
+    return scores, None
 
 
 def create_score(score_data):
