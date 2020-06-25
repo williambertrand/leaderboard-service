@@ -24,7 +24,7 @@ class GameSchema(Schema):
 
 class AddScoreSchema(Schema):
     display_name = fields.String()
-    value = fields.String()
+    value = fields.Number()
     date = fields.DateTime()
 
 
@@ -60,6 +60,7 @@ class GameScores(Resource):
         if err:
             return {'error': f'Could not find game with game_id {game_id}'}, 400
 
+        player_pos = 0
         if player_score:
             for i in range(0, len(scores)):
                 player_pos = i
