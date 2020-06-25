@@ -23,7 +23,6 @@ class GameSchema(Schema):
 
 
 class AddScoreSchema(Schema):
-    game_id = fields.String(required=True)
     display_name = fields.String()
     value = fields.Number()
     date = fields.DateTime()
@@ -73,16 +72,14 @@ class GameScores(Resource):
             'count': len(scores)
         })
 
-
-class Score(Resource):
-    def post(self):
+    def post(self, game_id):
         payload = request.json
         validated_input = AddScoreSchema().load(payload)
-        score = create_score(validated_input)
-
+        score, err = create_score(game_id, validated_input)
+        if err is not None:
+            return {'error': f'Could not find game with game_id {game_id}'}, 400
         return {'message': 'score saved'}, 200
 
 
 games_api.add_resource(Games, '/games')
-games_api.add_resource(Score, '/scores')
 games_api.add_resource(GameScores, '/scores/<string:game_id>')

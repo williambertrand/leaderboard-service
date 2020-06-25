@@ -37,9 +37,10 @@ def get_scores_for_game(game_id):
     return scores, None
 
 
-def create_score(score_data):
-    game_short_id = score_data['game_id']
-    game_ref = Game.query.filter(Game.game_id == game_short_id).one_or_none()
+def create_score(game_id, score_data):
+    game_ref = Game.query.filter(Game.game_id == game_id).one_or_none()
+    if game_ref is None:
+        return None, 'Could not find game!'
     new_score = Score(
         game=game_ref.id,
         display_name=score_data['display_name'],
@@ -48,3 +49,5 @@ def create_score(score_data):
 
     db.session.add(new_score)
     db.session.commit()
+
+    return new_score, None
