@@ -74,9 +74,10 @@ class GameScores(Resource):
         })
 
     def post(self, game_id):
-        payload = request.json
-        print('GOT JSON PAYLOAD:')
-        print(payload)
+        print('GOT request:')
+        print(request)
+
+        payload = request.form
         #validated_input = AddScoreSchema().load(payload)
         score, err = create_score(game_id, payload)
         if err is not None:
