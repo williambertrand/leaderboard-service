@@ -37,14 +37,23 @@ def get_scores_for_game(game_id):
     return scores, None
 
 
+def num(s):
+    try:
+        return int(s)
+    except ValueError:
+        return float(s)
+
+
 def create_score(game_id, score_data):
     game_ref = Game.query.filter(Game.game_id == game_id).one_or_none()
     if game_ref is None:
         return None, 'Could not find game!'
+    score_val = num(score_data['value'])
+
     new_score = Score(
         game=game_ref.id,
         display_name=score_data['display_name'],
-        value=score_data['value']
+        value=score_val
     )
 
     db.session.add(new_score)
