@@ -3,6 +3,8 @@ from flask import Blueprint
 from flask import Response
 from flask import request
 
+import math
+
 from marshmallow import Schema
 from marshmallow import fields
 
@@ -55,11 +57,13 @@ class Games(Resource):
 class GameScores(Resource):
     def get(self, game_id):
         player_score = request.args.get('score')
+        limit = request.args.get('limit', 0)
         scores, err = get_scores_for_game(game_id)
 
         if err:
             return {'error': f'Could not find game with game_id {game_id}'}, 400
 
+        filtered_sores = []
         player_pos = 0
         if player_score:
             for i in range(0, len(scores)):
@@ -67,20 +71,22 @@ class GameScores(Resource):
                 if player_score > scores[i]:
                     break
 
+        if limit:
+            start_index = max(len(scores) - player_pos - (limit / 2), 0)
+            end_index = player_pos + (limit / 2)
+            filtered_sores = scores[start_index: end_index]
+        else:
+            filtered_sores = scores
+
         return LeaderBoardSchema().dump({
-            'scores': scores,
+            'scores': filtered_sores,
             'position': (player_pos + 1),
-            'count': len(scores)
+            'count': len(filtered_sores)
         })
 
     def post(self, game_id):
-        print('GOT request:')
-        print(request)
-
         payload = request.json
-
-        print(f'GOT payload: {payload}')
-        #validated_input = AddScoreSchema().load(payload)
+        #validated_input = AddScoreSchema().load(payload) #TODO
         score, err = create_score(game_id, payload)
         if err is not None:
             return {'error': f'Could not find game with game_id {game_id}'}, 400
