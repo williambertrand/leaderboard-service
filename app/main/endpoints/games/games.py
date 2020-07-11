@@ -76,7 +76,7 @@ class GameScores(Resource):
         if limit:
             #start_index = max(len(scores) - player_pos - (limit / 2), 0)
             #end_index = player_pos + (limit / 2)
-            filtered_sores = scores[offset: offset + limit]
+            filtered_sores = scores[offset: offset + int(limit)]
         else:
             filtered_sores = scores
 
